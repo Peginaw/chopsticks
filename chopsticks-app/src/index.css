@@ -12,3 +12,14 @@ code {
     monospace;
 }
 
+.player {
+
+}
+
+.playerTwo {
+  transform: rotateX(-180deg);
+}
+
+.flipHand {
+  transform:rotateY(180deg);
+}

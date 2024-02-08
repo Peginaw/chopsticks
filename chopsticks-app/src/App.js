@@ -2,8 +2,6 @@
 import './App.css';
 import { useState } from 'react';
 
-import PlayerOneLeftHand from './components/P1-LeftHand';
-import PlayerOneRghtHand from './components/P1-RightHand';
 import Arena from './components/Arena';
 
 
