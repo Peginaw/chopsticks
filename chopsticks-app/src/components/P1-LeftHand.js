@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 class PlayerOneLeftHand extends React.Component {
   handleKeyPress = (event) => {
     // Check if the key pressed is the 'Enter' key
@@ -11,12 +12,9 @@ class PlayerOneLeftHand extends React.Component {
 
   render() {
     return (
-      <div>
-        <p>Press the Enter key:</p>
-        <input
-          type="text"
-          onKeyDown={this.handleKeyPress}
-        />
+      <div onKeyDown={this.handleKeyPress}>
+        <p>ATTACK with q,e,i, or p</p>
+        
       </div>
     );
   }

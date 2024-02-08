@@ -1,18 +1,23 @@
-import logo from './logo.svg';
+
 import './App.css';
-import HelloWorld from './components/blah';
-import PlayerOne from './components/player1';
+import { useState } from 'react';
+
 import PlayerOneLeftHand from './components/P1-LeftHand';
+import PlayerOneRghtHand from './components/P1-RightHand';
+import Arena from './components/Arena';
+
+
 
 function App() {
+  
+
+
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <HelloWorld />
-        <HelloWorld />
-        <PlayerOne />
-        <PlayerOneLeftHand />
+       <Arena />
+       
         <a
           className="App-link"
           href="https://reactjs.org"
