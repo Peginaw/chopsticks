@@ -20,3 +20,7 @@
 - On the main menu, select HOST or JOIN
   - The host will be shown a code to give to the joiner
   - The joiner will enter that code. If the host is still there, the game will begin
+
+
+Attribution:
+Hand image derrived from image by <a href="https://www.freepik.com/free-vector/hands-collection-with-different-poses-flat-style_2096137.htm#page=2&query=pixel%20back%20glove%20one%20two%20three%20four%20five%20vector&position=7&from_view=search&track=ais&uuid=57aa84c8-c4ba-4fdd-b889-a746777a6f2c">Freepik</a>
