@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { ArenaReducer } from "../reducers/ArenaReducer";
+import { useState, useReducer } from "react";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
 import Scoreboard from './Scoreboard';
@@ -48,6 +49,14 @@ function calculateWinner(){
     return defender;
   }
   
+  const [state, dispatch] = useReducer(ArenaReducer, {
+      win: false,
+      P1Fingers: {left: 1, right: 1},
+      P2Fingers: {left: 1, right: 1},
+      P1Score: 0,
+      P2Score: 0,
+  });
+
   const HAND_IMAGES =[zero, one, two, three, four];
   const [win, setWin] = useState(false);
   const [P1Fingers, setP1Fingers] = useState({"left": 1, "right": 1});
@@ -61,9 +70,11 @@ function calculateWinner(){
   const handleAttack = (attackInfo) =>{
     switch (attackInfo){
       case "P1-LL": // P1-L attacks P2-L
-        attackedFingers = P2Fingers;
-        attackedFingers.left = attack(P1Fingers.left, P2Fingers.left);
-        setP2Fingers({...attackedFingers});
+        attackedFingers = state.P2Fingers;
+        attackedFingers.left = attack(state.P1Fingers.left, state.P2Fingers.left);
+        dispatch(
+          {type: "UPDATE_P2_FINGERS", payload: attackedFingers.left}
+        )
         break;
       case "P1-LR": // P1-L attacks P2-R
         attackedFingers = P2Fingers;
