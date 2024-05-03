@@ -1,5 +1,5 @@
 import React from "react";
-import { ArenaReducer } from "../reducers/ArenaReducer";
+import ArenaReducer from '../reducers/ArenaReducer';
 import { useState, useReducer } from "react";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
