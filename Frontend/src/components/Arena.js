@@ -3,7 +3,7 @@ import ArenaReducer from '../reducers/ArenaReducer';
 import { useState, useReducer } from "react";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
-import Scoreboard from './Scoreboard';
+import Scoreboard from './PlayerDashboard';
 import zero from './0.png';
 import one from './1.png';
 import two from './2.png';
