@@ -5,9 +5,9 @@ export default function Scoreboard({ P1Score, P2Score }) {
 
   
   return (
-    <div>
+    <div className="container">
     <h2>Scoreboard</h2>
-    <div >
+    <div>
         <div  id="player1">
             <h3>Player 1</h3>
             <p>Score: <span id="player1-wins">{P1Score}</span></p>

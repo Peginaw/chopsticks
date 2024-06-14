@@ -1,7 +1,7 @@
 
 import './App.css';
 import { useState } from 'react';
-
+import './scss/App.css'
 import Arena from './components/Arena';
 
 

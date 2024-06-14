@@ -1,5 +1,5 @@
 import React from "react";
-import ArenaReducer from '../reducers/ArenaReducer';
+import {ArenaReducer, initialState }from '../reducers/ArenaReducer';
 import { useState, useReducer } from "react";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
@@ -49,13 +49,7 @@ function calculateWinner(){
     return defender;
   }
   
-  const [state, dispatch] = useReducer(ArenaReducer, {
-      win: false,
-      P1Fingers: {left: 1, right: 1},
-      P2Fingers: {left: 1, right: 1},
-      P1Score: 0,
-      P2Score: 0,
-  });
+  const [state, dispatch] = useReducer(ArenaReducer, initialState);
 
   const HAND_IMAGES =[zero, one, two, three, four];
   const [win, setWin] = useState(false);
@@ -71,25 +65,34 @@ function calculateWinner(){
     switch (attackInfo){
       case "P1-LL": // P1-L attacks P2-L
         attackedFingers = state.P2Fingers;
+       
         attackedFingers.left = attack(state.P1Fingers.left, state.P2Fingers.left);
+        
         dispatch(
-          {type: "UPDATE_P2_FINGERS", payload: attackedFingers.left}
+          {type: "UPDATE_P2_FINGERS_LEFT", payload: attackedFingers.left}
         )
+        
         break;
       case "P1-LR": // P1-L attacks P2-R
         attackedFingers = P2Fingers;
-        attackedFingers.right = attack(P1Fingers.left, P2Fingers.right);
-        setP2Fingers({...attackedFingers});
+        attackedFingers.right = attack(state.P1Fingers.left, state.P2Fingers.right);
+        dispatch(
+          {type: "UPDATE_P2_FINGERS_RIGHT", payload: attackedFingers.right}
+        )
         break;
-      case "P1-RL": // P1-R attacks
+      case "P1-RL": // P1-R attacks P2 LEFT
         attackedFingers = P2Fingers;
-        attackedFingers.left = attack(P1Fingers.right, P2Fingers.left);
-        setP2Fingers({...attackedFingers});
+        attackedFingers.left = attack(state.P1Fingers.right, state.P2Fingers.left);
+        dispatch(
+          {type: "UPDATE_P2_FINGERS_LEFT", payload: attackedFingers.left}
+        )
         break;
-      case "P1-RR":
+      case "P1-RR": // P1-R attacks P2 right
         attackedFingers = P2Fingers;
-        attackedFingers.right = attack(P1Fingers.right, P2Fingers.right);
-        setP2Fingers({...attackedFingers});
+        attackedFingers.right = attack(state.P1Fingers.right, state.P2Fingers.right);
+        dispatch(
+          {type: "UPDATE_P2_FINGERS_RIGHT", payload: attackedFingers.left}
+        )        
         break;
       case "P2-LL": // P1-L attacks P2-L
         attackedFingers = P1Fingers;
@@ -124,7 +127,8 @@ function calculateWinner(){
         <Scoreboard  P1score={P1Score} P2score={P2Score} />
       </div>
       <div className="player playerTwo">
-        {!win && <img src={ HAND_IMAGES[P2Fingers.left] } />}
+        {!win && <img src={ HAND_IMAGES[state.P2Fingers.left] } />}
+        {console.log("yo mf", state.P2Fingers)}
         {!win && <img className="flipHand" src={ HAND_IMAGES[P2Fingers.right]} />}
       </div>
         

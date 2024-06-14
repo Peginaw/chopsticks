@@ -1,3 +1,11 @@
+$textColor: white;
+$backgroundColor: #040273;
+
 div{
-    color: black
+    color: $textColor;
+    width: 100%;
+}
+
+.container{
+    background-color: $backgroundColor;
 }
