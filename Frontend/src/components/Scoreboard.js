@@ -1,8 +1,7 @@
 import React from "react";
 import "../scss/Scoreboard.css"
 
-export default function Scoreboard({ scores }) {
-    const [P1Score, P2Score] = scores;
+export default function Scoreboard({ P1Score, P2Score }) {
 
   
   return (

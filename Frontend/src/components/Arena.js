@@ -3,7 +3,7 @@ import ArenaReducer from '../reducers/ArenaReducer';
 import { useState, useReducer } from "react";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
-import Scoreboard from './PlayerDashboard';
+import Scoreboard from './Scoreboard'
 import zero from './0.png';
 import one from './1.png';
 import two from './2.png';
@@ -121,7 +121,7 @@ function calculateWinner(){
   return (
     <>
       <div>
-        <Scoreboard  scores = {[P1Score, P1Score]}/>
+        <Scoreboard  P1score={P1Score} P2score={P2Score} />
       </div>
       <div className="player playerTwo">
         {!win && <img src={ HAND_IMAGES[P2Fingers.left] } />}

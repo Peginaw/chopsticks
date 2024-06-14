@@ -1,6 +1,5 @@
 
 import './App.css';
-import PlayerDashboard from "./components/PlayerDashboard"
 import { useState } from 'react';
 
 import Arena from './components/Arena';
@@ -18,7 +17,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-       <PlayerDashboard wins = {21} losses={12} recentMatches={recentMatches}/>
+       <Arena />
        
         
       </header>
