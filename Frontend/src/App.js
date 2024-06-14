@@ -1,24 +1,27 @@
 
 import './App.css';
+import PlayerDashboard from "./components/PlayerDashboard"
 import { useState } from 'react';
 
 import Arena from './components/Arena';
 
-////////////////////////////////////////
-//////////////////// TO DO//////////////
-//1. game logic
-//2. scoreboard
-//////////////////////////////////////////
-/////////////////////////////////////////
+
+const recentMatches = [{id: 1, outcome: "Win"},
+                {id: 2, outcome: "Loss"},
+                {id: 3, outcome: "Win"},
+                {id: 4, outcome: "Win"},
+                {id: 5, outcome: "Loss"}
+                ]
+
 
 function App() {
-  
-
   return (
     <div className="App">
-  
-       <Arena />
-      
+      <header className="App-header">
+       <PlayerDashboard wins = {21} losses={12} recentMatches={recentMatches}/>
+       
+        
+      </header>
     </div>
   );
 }
