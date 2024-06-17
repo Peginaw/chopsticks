@@ -1,26 +1,23 @@
 import React from "react";
-import "../scss/Scoreboard.css"
+import "../scss/Scoreboard.css"; // Ensure the correct path to your CSS file
 
-export default function Scoreboard({ P1Score, P2Score, isP1Turn}) {
-
-  
+export default function Scoreboard({ P1Score, P2Score, isP1Turn }) {
   return (
-    <div className="container">
-    <h2>Scoreboard</h2>
-    <div>
-        <div  id="player1">
-            <h3>Player 1</h3>
-            <p>Score: <span id="player1-wins">{P1Score}</span></p>
+    <div className="container poppins-light">
+      <h2>SCOREBOARD</h2>
+      <div className="player-container">
+        <div id="player1">
+          <h3>Player 1</h3>
+          <p>Score: <span id="player1-wins">{P1Score}</span></p>
         </div>
-        
-        <div  id="player2">
-            <h3>Player 2</h3>
-            <p>Score: <span id="player2-wins">{P2Score}</span></p>
+        <div id="player2">
+          <h3>Player 2</h3>
+          <p>Score: <span id="player2-wins">{P2Score}</span></p>
         </div>
+      </div>
+      <div className="is_turn">
+        {isP1Turn ? <p>Turn: <span id="turn-indicator">P1</span></p> : <p>Turn: <span id="turn-indicator">P2</span></p>}
+      </div>
     </div>
-    <div>
-      <p>Turn: <span id="turn-indicator">{isP1Turn}</span></p>
-    </div>
-</div>
   );
 }

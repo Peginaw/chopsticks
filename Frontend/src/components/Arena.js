@@ -12,8 +12,6 @@ import four from './4.png';
 
 const MAX_FINGERS = 4;
 
-
-
 export default function Arena() {
   const [state, dispatch] = useReducer(ArenaReducer, initialState);
 

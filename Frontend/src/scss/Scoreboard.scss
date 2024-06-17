@@ -1,11 +1,56 @@
+// Define your variables
 $textColor: white;
-$backgroundColor: #040273;
+$backgroundColor: #005249;
 
-div{
-    color: $textColor;
-    width: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+@font-face {
+  font-family: 'Digital-7';
+  src: url('digital-7.regular.ttf') format('truetype');
 }
 
-.container{
-    background-color: $backgroundColor;
+div {
+  color: $textColor;
+  width: 100%;
+}
+
+.container {
+  position: relative;
+  background-color: $backgroundColor;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url('../images/grain_filter.jpg');
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}
+
+p {
+  font-family: 'Digital-7', sans-serif;
+}
+
+.player-container {
+  display: flex;
+
+}
+.is_turn, h2, .player-container{
+    z-index: 100;
+}
+
+.player-container h3 {
+  margin-bottom: 10px;
+}
+
+.poppins-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
 }
