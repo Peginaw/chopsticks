@@ -7,20 +7,20 @@ export default function PlayerTwo({ onAttack }) {
     // Check if the key pressed is the 'Enter' key
     switch (event.key) {
       case 'a':
-        onAttack('P2-LL');
         console.log('a pressed');
+        onAttack('P2-LL');
         break;
       case 'd':
-        onAttack('P2-LR');
         console.log('d pressed');
+        onAttack('P2-LR');
         break;
       case 'k':
-        onAttack('P2-RL');
         console.log('k pressed');
+        onAttack('P2-RL');
         break;
       case ';':
-        onAttack('P2-RR')
         console.log('; pressed');
+        onAttack('P2-RR')
         break;
     }
   };

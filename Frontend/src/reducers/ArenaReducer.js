@@ -16,16 +16,16 @@ export const ArenaReducer = (state, action) => {
     case "UPDATE_P1_FINGERS_LEFT":
       return {
         ...state,
-        P2Fingers: {
-          ...state.P2Fingers,
+        P1Fingers: {
+          ...state.P1Fingers,
           left: action.payload
         }
       };
     case "UPDATE_P1_FINGERS_RIGHT":
       return {
         ...state,
-        P2Fingers: {
-          ...state.P2Fingers,
+        P1Fingers: {
+          ...state.P1Fingers,
           right: action.payload
         }
       };
