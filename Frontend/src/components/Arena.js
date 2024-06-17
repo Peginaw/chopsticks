@@ -12,8 +12,6 @@ import four from './4.png';
 
 const MAX_FINGERS = 4;
 
-
-
 export default function Arena() {
 
   function calculateWinner() {
@@ -166,7 +164,7 @@ export default function Arena() {
   return (
     <>
       <div>
-        <Scoreboard P1score={P1Score} P2score={P2Score} isP1Turn={state.isP1Turn} />
+        <Scoreboard P1Score={state.P1Score} P2Score={state.P2Score} isP1Turn={state.isP1Turn} />
       </div>
       <div className="player playerTwo">
         {!win && <img src={HAND_IMAGES[state.P2Fingers.left]} />}
