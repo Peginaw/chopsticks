@@ -7,20 +7,20 @@ export default function PlayerOne({ onAttack }) {
     // Check if the key pressed is the 'Enter' key
     switch (event.key) {
       case 'q':
-        onAttack('P1-LL');
         console.log('q pressed');
+        onAttack('P1-LL');
         break;
       case 'e':
-        onAttack('P1-LR');
         console.log('e pressed');
+        onAttack('P1-LR');
         break;
       case 'i':
-        onAttack('P1-RL');
         console.log('i pressed');
+        onAttack('P1-RL');
         break;
       case 'p':
-        onAttack('P1-RR')
         console.log('p pressed');
+        onAttack('P1-RR')
         break;
     }
   };
