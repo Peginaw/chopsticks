@@ -1,5 +1,6 @@
-import React from "react";
-import { ArenaReducer, initialState } from '../reducers/ArenaReducer';
+import React, { useEffect } from "react";
+import { Button } from "react";
+import { ArenaReducer } from '../reducers/ArenaReducer';
 import { useState, useReducer } from "react";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
@@ -12,8 +13,23 @@ import four from './4.png';
 
 const MAX_FINGERS = 4;
 
+export const initialState = {
+  win: false,
+  isP1Turn: true,
+  P1Fingers: { left: 1, right: 1 },
+  P2Fingers: { left: 1, right: 1 },
+  P1Score: 0,
+  P2Score: 0,
+};
+
 export default function Arena() {
   const [state, dispatch] = useReducer(ArenaReducer, initialState);
+  useEffect(() => {console.log(initialState)}, [initialState])
+
+  useEffect(() => { // whenever a turn is taken, print status and check for winner
+    printStatus(); 
+    calculateWinner()
+  }, [state.P1Fingers, state.P2Fingers])
 
   function calculateWinner() {
     if (state.P2Fingers.right == 0 && state.P2Fingers.left == 0) {
@@ -24,7 +40,7 @@ export default function Arena() {
       dispatch(
         { type: "UPDATE_P1_SCORE", payload: (state.P1Score + 1) }
       )
-      console.log("PLAYER ONE WINS");
+      console.log("PLAYER ONE WINS!");
     }
     if (state.P1Fingers.right == 0 && state.P1Fingers.left == 0) {
       // P2 wins
@@ -34,7 +50,7 @@ export default function Arena() {
       dispatch(
         { type: "UPDATE_P2_SCORE", payload: (state.P2Score + 1) }
       )
-      console.log("PLAYER TWO WINS");
+      console.log("PLAYER TWO WINS!");
     }
   }
 
@@ -43,17 +59,24 @@ export default function Arena() {
     console.log(`P1: ${JSON.stringify(state.P1Fingers)}`);
   }
 
-  function attack(attacker, defender) {
+  function attack(type, attacker, defender) {
     if (attacker == 0 || defender == 0) {
       console.log("That hand is out of play, can't be used or attacked.");
-      return defender;
+      return;
     }
+    console.log(defender)
     defender += attacker;
+    console.log(defender)
     if (defender > MAX_FINGERS) {
       defender = 0;
       console.log("Hand was knocked out");
     }
-    return defender;
+    dispatch(
+      { type: type, payload: defender }
+    )
+    dispatch(
+      { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
+    )
   }
 
 
@@ -67,60 +90,59 @@ export default function Arena() {
 
 
 
+  
   const handleAttack = (attackInfo) => {
-    let turnTaken = true;
 
     if (state.isP1Turn) {//                  ### P1 ATTACKS ###
       switch (attackInfo) {
         case "P1-LL": // P1-L attacks P2-L
           console.log("( P1 L -> P2 L )")
-          attackedFingers = state.P2Fingers;
-          attackedFingers.left = attack(state.P1Fingers.left, state.P2Fingers.left);
-          dispatch(
-            { type: "UPDATE_P2_FINGERS_LEFT", payload: attackedFingers.left }
-          )
-          dispatch(
-            { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
-          )
+          attackedFingers = {...state.P2Fingers};
+          attack("UPDATE_P2_FINGERS_LEFT", state.P1Fingers.left, state.P2Fingers.left);
+          // dispatch(
+          //   { type: "UPDATE_P2_FINGERS_LEFT", payload: attackedFingers.left }
+          // )
+          // dispatch(
+          //   { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
+          // )
           break;
 
         case "P1-LR": // P1-L attacks P2-R
           console.log("( P1 L -> P2 R )")
-          attackedFingers = state.P2Fingers;
-          attackedFingers.right = attack(state.P1Fingers.left, state.P2Fingers.right);
-          dispatch(
-            { type: "UPDATE_P2_FINGERS_RIGHT", payload: attackedFingers.right }
-          )
-          dispatch(
-            { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
-          )
+          attackedFingers = {...state.P2Fingers};
+          attack("UPDATE_P2_FINGERS_RIGHT", state.P1Fingers.left, state.P2Fingers.right);
+          // dispatch(
+          //   { type: "UPDATE_P2_FINGERS_RIGHT", payload: attackedFingers.right }
+          // )
+          // dispatch(
+          //   { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
+          // )
           break;
 
         case "P1-RL": // P1-R attacks P2 LEFT
           console.log("( P1 R -> P2 L )")
           attackedFingers = state.P2Fingers;
-          attackedFingers.left = attack(state.P1Fingers.right, state.P2Fingers.left);
-          dispatch(
-            { type: "UPDATE_P2_FINGERS_LEFT", payload: attackedFingers.left }
-          )
-          dispatch(
-            { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
-          )
+          attack("UPDATE_P2_FINGERS_LEFT", state.P1Fingers.right, state.P2Fingers.left);
+          // dispatch(
+          //   { type: "UPDATE_P2_FINGERS_LEFT", payload: attackedFingers.left }
+          // )
+          // dispatch(
+          //   { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
+          // )
           break;
 
         case "P1-RR": // P1-R attacks P2 right
           console.log("( P1 R -> P2 R )")
-          attackedFingers = state.P2Fingers;
-          attackedFingers.right = attack(state.P1Fingers.right, state.P2Fingers.right);
-          dispatch(
-            { type: "UPDATE_P2_FINGERS_RIGHT", payload: attackedFingers.right }
-          )
-          dispatch(
-            { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
-          )
+          attackedFingers = {...state.P2Fingers};
+          attack("UPDATE_P2_FINGERS_RIGHT", state.P1Fingers.right, state.P2Fingers.right);
+          // dispatch(
+          //   { type: "UPDATE_P2_FINGERS_RIGHT", payload: attackedFingers.right }
+          // )
+          // dispatch(
+          //   { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
+          // )
           break;
         default:
-          turnTaken = false;
           break;
       }
     }
@@ -128,66 +150,59 @@ export default function Arena() {
       switch (attackInfo) {
         case "P2-LL": // P2-L attacks P1-L
           console.log("( P2 L -> P1 L )")
-          attackedFingers = state.P1Fingers;
-          attackedFingers.left = attack(state.P2Fingers.left, state.P1Fingers.left);
-          dispatch(
-            { type: "UPDATE_P1_FINGERS_LEFT", payload: attackedFingers.left }
-          )
-          dispatch(
-            { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
-          )
+          attackedFingers = {...state.P1Fingers};
+          attack("UPDATE_P1_FINGERS_LEFT", state.P2Fingers.left, state.P1Fingers.left);
+          // dispatch(
+          //   { type: "UPDATE_P1_FINGERS_LEFT", payload: attackedFingers.left }
+          // )
+          // dispatch(
+          //   { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
+          // )
           break;
 
         case "P2-LR": // P2-L attacks P1-R
           console.log("( P2 L -> P1 R )")
-          attackedFingers = state.P1Fingers;
-          attackedFingers.right = attack(state.P2Fingers.left, state.P1Fingers.right);
-          dispatch(
-            { type: "UPDATE_P1_FINGERS_RIGHT", payload: attackedFingers.right }
-          )
-          dispatch(
-            { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
-          )
+          attackedFingers = {...state.P1Fingers};
+          attack("UPDATE_P1_FINGERS_RIGHT", state.P2Fingers.left, state.P1Fingers.right);
+          // dispatch(
+          //   { type: "UPDATE_P1_FINGERS_RIGHT", payload: attackedFingers.right }
+          // )
+          // dispatch(
+          //   { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
+          // )
           break;
 
         case "P2-RL": // P2-R attacks P1-L
           console.log("( P2 R -> P1 L )")
-          attackedFingers = state.P1Fingers;
-          attackedFingers.left = attack(state.P2Fingers.right, state.P1Fingers.left);
-          dispatch(
-            { type: "UPDATE_P1_FINGERS_LEFT", payload: attackedFingers.left }
-          )
-          dispatch(
-            { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
-          )
+          attackedFingers = {...state.P1Fingers};
+          attack("UPDATE_P1_FINGERS_LEFT", state.P2Fingers.right, state.P1Fingers.left);
+          // dispatch(
+          //   { type: "UPDATE_P1_FINGERS_LEFT", payload: attackedFingers.left }
+          // )
+          // dispatch(
+          //   { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
+          // )
           break;
 
         case "P2-RR": // P2-R attacks P1-R
           console.log("( P2 R -> P1 R )")
-          attackedFingers = state.P1Fingers;
-          attackedFingers.right = attack(state.P2Fingers.right, state.P1Fingers.right);
-          dispatch(
-            { type: "UPDATE_P1_FINGERS_RIGHT", payload: attackedFingers.right }
-          )
-          dispatch(
-            { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
-          )
-          break;
-        default:
-          turnTaken = false;
+          attackedFingers = {...state.P1Fingers};
+          attack("UPDATE_P1_FINGERS_RIGHT", state.P2Fingers.right, state.P1Fingers.right);
+          // dispatch(
+          //   { type: "UPDATE_P1_FINGERS_RIGHT", payload: attackedFingers.right }
+          // )
+          // dispatch(
+          //   { type: "UPDATE_TURN", payload: !state.isP1Turn } // Change turns
+          // )
           break;
       }
 
-    }
-    if (turnTaken){
-      printStatus();
-      calculateWinner();
     }
   }
   return (
     <>
       <div>
-        <Scoreboard P1score={state.P1Score} P2score={state.P2Score} isP1Turn={state.isP1Turn} />
+        <Scoreboard P1Score={state.P1Score} P2Score={state.P2Score} isP1Turn={state.isP1Turn} />
       </div>
       <div className="player playerTwo">
         {!state.win && <img src={HAND_IMAGES[state.P2Fingers.left]} />}
@@ -199,7 +214,12 @@ export default function Arena() {
         {!state.win && <img className="flipHand" src={HAND_IMAGES[state.P1Fingers.right]} />}
       </div>
 
-      {state.win && <h1>WINNER WINNER CHICKEN DINNER</h1>}
+      {state.win && <h1>{state.isP1Turn} WINNER WINNER CHICKEN DINNER</h1>}
+      {state.win && <button id="resetRoundButton"
+        onClick={() => dispatch({ type: "NEW_ROUND_RESET" })}
+        title="RESET"
+        color="#841584"
+      >RESET</button>}
 
       <PlayerTwo onAttack={handleAttack} isP1Turn={state.isP1Turn} />
       <PlayerOne onAttack={handleAttack} isP1Turn={state.isP1Turn} />
