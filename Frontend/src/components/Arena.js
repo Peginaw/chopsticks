@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Button } from "react";
 import { ArenaReducer } from '../reducers/ArenaReducer';
-import { useState, useReducer } from "react";
+import { useState, useReducer, useRef } from "react";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
 import Scoreboard from './Scoreboard'
@@ -24,6 +24,35 @@ export const initialState = {
 
 export default function Arena() {
   const [state, dispatch] = useReducer(ArenaReducer, initialState);
+  const [message, setMessage] = useState("");
+  const socket=useRef(null)
+
+  useEffect(() => {
+    if (!socket.current || socket.current.readyState === WebSocket.CLOSED) {
+      socket.current = new WebSocket('ws://10.0.0.186:3001');
+    }
+    
+    // socket.current.onmessage = (event) => {
+    //   setMessages((prevMessages) => [...prevMessages, event.data]);
+    // };
+    
+    return () => {
+      socket.current.close();
+    };
+  }, []);
+
+
+  function socketTestHandler(event) {
+    setMessage(event.target.value)
+  }
+
+  const sendMessage = () => {
+    if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+      socket.current.send(message);
+      setMessage('');
+    }
+  };
+
   useEffect(() => {console.log(initialState)}, [initialState])
 
   useEffect(() => { // whenever a turn is taken, print status and check for winner
@@ -223,6 +252,10 @@ export default function Arena() {
 
       <PlayerTwo onAttack={handleAttack} isP1Turn={state.isP1Turn} />
       <PlayerOne onAttack={handleAttack} isP1Turn={state.isP1Turn} />
+      <br/>
+      <input type="text" value={message} onChange={socketTestHandler}/>
+      <button onClick={sendMessage}>Send</button>
+
     </>
   )
 }
